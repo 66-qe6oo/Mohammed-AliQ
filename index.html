@@ -12,126 +12,70 @@
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            background-image: url('https://github.com/66-qe6oo/Password-For-Link/blob/main/FF44A9AE-FD51-4615-B387-7A43600265FC.jpeg?raw=true');
+            background-image: url('https://github.com/66-qe6oo/Password-For-Link/blob/main/B497FA42-9A0F-48D9-BD5A-018774F35A42.jpeg?raw=true');
             background-size: cover;
             background-position: center;
             font-family: Arial, sans-serif;
         }
         .input-container {
+            margin-top: 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 50px;
-            background: white;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            padding: 20px;
+            width: 100%;
+            max-width: 400px;
         }
-        .input-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .input-container input {
-            border: none;
-            padding: 15px;
-            font-size: 18px;
-            outline: none;
-            border-radius: 5px;
-            width: 300px;
-        }
-        .input-container button {
-            background-color: #cccccc;
-            color: black;
-            border: none;
-            padding: 15px 25px;
-            cursor: pointer;
-            font-size: 20px;
-            border-radius: 5px;
-            margin-left: 10px;
-        }
-        .input-container button:hover {
-            background-color: #aaaaaa;
-        }
-        .show-password {
-            background: none;
-            color: black;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-        .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            padding: 30px;
-            display: none;
-            z-index: 10;
-            width: 400px;
-        }
-        .popup.show {
-            display: block;
-        }
-        .popup.error {
-            border: 3px solid red;
-        }
-        .popup.success {
-            border: 3px solid green;
-        }
-        .popup .icon {
-            font-size: 60px;
+        .password-wrapper {
+            position: relative;
+            width: 100%;
             margin-bottom: 15px;
         }
-        .popup .close {
+        .password-wrapper input {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            box-sizing: border-box;
+        }
+        .password-wrapper .toggle-password {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            font-size: 20px;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid black;
+            background-color: white;
             cursor: pointer;
         }
-        .popup .btn {
-            padding: 15px 30px;
-            margin-top: 15px;
-            background: #007BFF;
-            color: white;
+        .password-wrapper .toggle-password.active {
+            background-color: #ccc;
+        }
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
             border: none;
             border-radius: 5px;
+            background-color: #ccc;
+            color: black;
             cursor: pointer;
-            font-size: 18px;
         }
-        .popup .btn:hover {
-            background: #0056b3;
+        .login-button:hover {
+            background-color: #bbb;
         }
     </style>
 </head>
 <body>
     <div class="input-container">
-        <div class="input-row">
+        <div class="password-wrapper">
             <input type="password" id="password" placeholder="Enter password">
-            <button onclick="verifyPassword()">→</button>
+            <div class="toggle-password" onclick="togglePassword()"></div>
         </div>
-        <button class="show-password" onclick="togglePassword()">Show password</button>
-    </div>
-
-    <div id="errorPopup" class="popup error">
-        <button class="close" onclick="closePopup('errorPopup')">×</button>
-        <div class="icon">❌</div>
-        <p>Incorrect password</p>
-    </div>
-
-    <div id="successPopup" class="popup success">
-        <button class="close" onclick="closePopup('successPopup')">×</button>
-        <div class="icon">✅</div>
-        <p>Password correct</p>
-        <button class="btn" onclick="goToProtectedLink()">Go to the site</button>
+        <button class="login-button" onclick="verifyPassword()">Log in</button>
     </div>
 
     <script>
@@ -141,36 +85,21 @@
         function verifyPassword() {
             const inputPassword = document.getElementById('password').value;
             if (inputPassword === correctPassword) {
-                showPopup('successPopup');
+                window.open(protectedLink, "_blank");
             } else {
-                showPopup('errorPopup');
+                alert("Incorrect password");
             }
-        }
-
-        function showPopup(popupId) {
-            const popup = document.getElementById(popupId);
-            popup.classList.add('show');
-            setTimeout(() => closePopup(popupId), 5000); // Auto-close after 5 seconds
-        }
-
-        function closePopup(popupId) {
-            const popup = document.getElementById(popupId);
-            popup.classList.remove('show');
-        }
-
-        function goToProtectedLink() {
-            window.open(protectedLink, "_blank");
         }
 
         function togglePassword() {
             const passwordInput = document.getElementById('password');
-            const showButton = document.querySelector('.show-password');
+            const togglePasswordButton = document.querySelector('.toggle-password');
             if (passwordInput.type === "password") {
                 passwordInput.type = "text";
-                showButton.textContent = "Hide password";
+                togglePasswordButton.classList.add('active');
             } else {
                 passwordInput.type = "password";
-                showButton.textContent = "Show password";
+                togglePasswordButton.classList.remove('active');
             }
         }
     </script>
