@@ -67,28 +67,134 @@
         .login-button:hover {
             background-color: #bbb;
         }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            padding: 50px;
+            display: none;
+            z-index: 10;
+            width: 500px;
+        }
+        .popup.show {
+            display: block;
+        }
+        .popup.error {
+            border: 3px solid red;
+        }
+        .popup.success {
+            border: 3px solid green;
+        }
+        .popup .icon {
+            font-size: 80px;
+            margin-bottom: 15px;
+        }
+        .popup .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .popup .btn {
+            padding: 15px 30px;
+            margin-top: 15px;
+            background: #ccc;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+        }
+        .popup .btn:hover {
+            background: #bbb;
+        }
     </style>
 </head>
 <body>
     <div class="input-container">
         <div class="password-wrapper">
-            <input type="password" id="password" placeholder="Enter password">
+            <input type="password" id="password" placeholder="Enter password" onkeypress="handleKeyPress(event)">
             <div class="toggle-password" onclick="togglePassword()"></div>
         </div>
         <button class="login-button" onclick="verifyPassword()">Log in</button>
     </div>
 
+    <div id="errorPopup" class="popup error">
+        <button class="close" onclick="closePopup('errorPopup')">×</button>
+        <div class="icon">❌</div>
+        <p>Incorrect password</p>
+    </div>
+
+    <div id="successPopup" class="popup success">
+        <button class="close" onclick="closePopup('successPopup')">×</button>
+        <div class="icon">✅</div>
+        <p>Password correct</p>
+        <div id="buttonContainer">
+            <!-- Buttons will be added dynamically -->
+        </div>
+    </div>
+
     <script>
-        const correctPassword = "112233";
-        const protectedLink = "https://google.com";
+        const passwordConfigs = {
+            "Mm989180": [{ name: "All USB", link: "https://google.com" }],
+            "112233": [
+                { name: "Actu", link: "https://youtube.com" },
+                { name: "BH", link: "https://gmail.com" }
+            ]
+        };
+
+        let currentPopup = null;
 
         function verifyPassword() {
             const inputPassword = document.getElementById('password').value;
-            if (inputPassword === correctPassword) {
-                window.open(protectedLink, "_blank");
-            } else {
-                alert("Incorrect password");
+            if (currentPopup) {
+                closePopup(currentPopup);
             }
+
+            if (passwordConfigs[inputPassword]) {
+                showPopup('successPopup', false);
+                populateButtons(inputPassword);
+            } else {
+                showPopup('errorPopup', true);
+            }
+        }
+
+        function populateButtons(password) {
+            const buttonContainer = document.getElementById('buttonContainer');
+            buttonContainer.innerHTML = ""; // Clear existing buttons
+            passwordConfigs[password].forEach(config => {
+                const button = document.createElement('button');
+                button.className = "btn";
+                button.textContent = config.name;
+                button.onclick = () => window.open(config.link, "_blank");
+                buttonContainer.appendChild(button);
+            });
+        }
+
+        function showPopup(popupId, autoClose) {
+            const popup = document.getElementById(popupId);
+            popup.classList.add('show');
+            currentPopup = popupId;
+            if (autoClose) {
+                setTimeout(() => {
+                    if (currentPopup === popupId) closePopup(popupId);
+                }, 5000);
+            }
+        }
+
+        function closePopup(popupId) {
+            const popup = document.getElementById(popupId);
+            popup.classList.remove('show');
+            if (currentPopup === popupId) currentPopup = null;
         }
 
         function togglePassword() {
@@ -100,6 +206,12 @@
             } else {
                 passwordInput.type = "password";
                 togglePasswordButton.classList.remove('active');
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                verifyPassword();
             }
         }
     </script>
