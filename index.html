@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,6 +25,8 @@
             align-items: center;
             width: 100%;
             max-width: 400px;
+            padding: 15px;
+            box-sizing: border-box;
         }
         .password-wrapper {
             position: relative;
@@ -79,7 +82,9 @@
             padding: 50px;
             display: none;
             z-index: 10;
-            width: 500px;
+            width: 90%;
+            max-width: 500px;
+            box-sizing: border-box;
         }
         .popup.show {
             display: block;
@@ -117,7 +122,50 @@
         .popup .btn:hover {
             background: #bbb;
         }
-    </style>
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .password-wrapper input,
+            .login-button {
+                font-size: 14px;
+                padding: 12px;
+            }
+
+            .popup {
+                padding: 30px;
+            }
+
+            .popup .icon {
+                font-size: 60px;
+            }
+
+            .popup .btn {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .password-wrapper input,
+            .login-button {
+                font-size: 12px;
+                padding: 10px;
+            }
+
+            .popup {
+                padding: 20px;
+            }
+
+            .popup .icon {
+                font-size: 50px;
+            }
+
+            .popup .btn {
+                font-size: 14px;
+                padding: 8px 15px;
+            }
+        }
+</style>
 </head>
 <body>
     <div class="input-container">
