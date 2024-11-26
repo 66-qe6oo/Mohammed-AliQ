@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohammed to Protect Links</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+            width: 300px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button::after {
+            content: "→";
+            font-size: 20px;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mohammed to Protect Links</h1>
+    <p>Enter the password to unlock the link:</p>
+
+    <form onsubmit="return false;">
+        <input type="password" id="password" placeholder="Enter Password" required>
+        <button type="button" onclick="verifyPassword()"></button>
+    </form>
+
+    <div class="result" id="result"></div>
+
+    <script>
+        function verifyPassword() {
+            const inputPassword = document.getElementById('password').value;
+            const correctPassword = "112233"; // Set your password here
+            const protectedLink = "https://google.com"; // The link to protect
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = ""; // Clear previous messages
+
+            if (inputPassword === correctPassword) {
+                window.open(protectedLink, "_blank"); // Open the link in a new tab
+            } else {
+                resultDiv.innerHTML = '<p class="error">Incorrect password</p>';
+            }
+        }
+    </script>
+</body>
+</html>
