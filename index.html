@@ -130,13 +130,13 @@
     </div>
 
     <div id="errorPopup" class="popup error">
-        <button class="close" onclick="closePopup('errorPopup')">×</button>
+        <button class="close" style="color: red;" onclick="closePopup('errorPopup')">×</button>
         <div class="icon">❌</div>
         <p>Incorrect password</p>
     </div>
 
     <div id="successPopup" class="popup success">
-        <button class="close" onclick="closePopup('successPopup')">×</button>
+        <button class="close" style="color: green;" onclick="closePopup('successPopup')">×</button>
         <div class="icon">✅</div>
         <p>Password correct</p>
         <div id="buttonContainer">
@@ -188,7 +188,7 @@
             if (autoClose) {
                 setTimeout(() => {
                     if (currentPopup === popupId) closePopup(popupId);
-                }, 5000);
+                }, 10000);
             }
         }
 
