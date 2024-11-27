@@ -161,6 +161,17 @@
                 alert("Please enter the password");
                 return;
             }
+
+            if (currentPopup) {
+                closePopup(currentPopup);
+            }
+
+            if (passwordConfigs[inputPassword]) {
+                showPopup('successPopup', false);
+                populateButtons(inputPassword);
+            } else {
+                showPopup('errorPopup', true);
+            }
             const inputPassword = document.getElementById('password').value;
             if (currentPopup) {
                 closePopup(currentPopup);
