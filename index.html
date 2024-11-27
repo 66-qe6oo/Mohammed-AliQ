@@ -157,11 +157,10 @@
 
         function verifyPassword() {
             const inputPassword = document.getElementById('password').value;
-            if (inputPassword.trim() === "") {
+            if (!inputPassword) {
                 alert("Please enter the password");
                 return;
             }
-
             if (currentPopup) {
                 closePopup(currentPopup);
             }
@@ -172,10 +171,7 @@
             } else {
                 showPopup('errorPopup', true);
             }
-            const inputPassword = document.getElementById('password').value;
-            if (currentPopup) {
-                closePopup(currentPopup);
-            }
+        }
 
             if (passwordConfigs[inputPassword]) {
                 showPopup('successPopup', false);
